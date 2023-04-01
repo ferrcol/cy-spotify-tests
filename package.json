@@ -4,11 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npx cypress open"
+    "test": "npx cypress run --headless -b chrome",
+    "start": "npx cypress open --e2e -b chrome"
   },
   "author": "",
   "license": "UNLICENSED",
   "dependencies": {
     "cypress": "^12.2.0"
+  },
+  "devDependencies": {
+    "cypress-multi-reporters": "^1.6.3",
+    "mochawesome": "^7.1.3"
   }
 }
