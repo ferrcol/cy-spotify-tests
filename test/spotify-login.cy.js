@@ -1,71 +1,45 @@
-const user = Cypress.env('user')  //'colcombetfernando@gmail.com'
-const pass = Cypress.env('pass')  //'Chaco.2023'
+
+import { LoginPage } from "../cypress/page-objects/LoginPage"
+import { ResetPage } from "../cypress/page-objects/ResetPage"
+import { LandingPage } from "../cypress/page-objects/LandingPage"
+
+const user = Cypress.env('user') 
+const pass = Cypress.env('pass')  
 
 describe('login',  {
   testIsolation: true,
 },() => {
+  const loginpage = new LoginPage()
+  const resetpage = new ResetPage()
+  const landingpage = new LandingPage()
 
   it('should login successfully', () => {
-    cy.visit('/')
-    cy.get('#onetrust-accept-btn-handler', { timeout: 15000 }).click() //Acept cookies
-    cy.get('[data-testid="login-button"] > .ButtonInner-sc-14ud5tc-0').click()
-
-    cy.get('[data-testid="login-username"]').type(user)
-    cy.get('[data-testid="login-password"]').type(pass)
-
-    cy.get('.ButtonInner-sc-14ud5tc-0 > .Type__TypeElement-sc-goli3j-0').click()
-    
-    cy.get('[data-testid="user-icon"]', { timeout: 6000 }).should('exist')
+    landingpage.goToLoginPage();
+    loginpage.dologin(user,pass);
+    landingpage.shouldHaveUser('ferrcol')
   })
 
   it('should show an error for wrong user', () => {
-    cy.visit('/')
-    cy.get('#onetrust-accept-btn-handler', { timeout: 15000 }).click() //Acept cookies
-    cy.get('[data-testid="login-button"] > .ButtonInner-sc-14ud5tc-0').click()
-
-    cy.get('[data-testid="login-username"]').type('aaa@gmail.com')
-    cy.get('[data-testid="login-password"]').type(pass)
-
-    cy.get('.ButtonInner-sc-14ud5tc-0 > .Type__TypeElement-sc-goli3j-0').click()
-    
-    cy.get('.Message-sc-15vkh7g-0').should('have.text','Incorrect username or password.')
+    landingpage.goToLoginPage();
+    loginpage.dologin('aaa@gmail.com',pass);
+    loginpage.shouldHaveErrorMsg('Error')
   })
 
   it('should show an error for wrong pass', () => {
-    cy.visit('/')
-    cy.get('#onetrust-accept-btn-handler', { timeout: 15000 }).click() //Acept cookies
-    cy.get('[data-testid="login-button"] > .ButtonInner-sc-14ud5tc-0').click()
-
-    cy.get('[data-testid="login-username"]').type(user)
-    cy.get('[data-testid="login-password"]').type('as!')
-
-    cy.get('.ButtonInner-sc-14ud5tc-0 > .Type__TypeElement-sc-goli3j-0').click()
-    
-    cy.get('.Message-sc-15vkh7g-0').should('have.text','Incorrect username or password.')
+    landingpage.goToLoginPage();
+    loginpage.dologin(user,'as!');
+    loginpage.shouldHaveErrorMsg('Error')
   })
 
   it('should show an error for empty fields', () => {
-    cy.visit('/')
-    cy.get('#onetrust-accept-btn-handler', { timeout: 15000 }).click() //Acept cookies
-    cy.get('[data-testid="login-button"] > .ButtonInner-sc-14ud5tc-0').click()
-
-    cy.get('.ButtonInner-sc-14ud5tc-0 > .Type__TypeElement-sc-goli3j-0').click()
-    
-    cy.get('.Message-sc-15vkh7g-0').should('have.text','Incorrect username or password.')
+    landingpage.goToLoginPage();
+    loginpage.dologin(user,'as!');
+    loginpage.shouldHaveErrorMsg('Error')    
   })
 
   it('should show a message for successful password reset', () => {
-    cy.visit('/')
-    cy.get('#onetrust-accept-btn-handler', { timeout: 15000 }).click() //Acept cookies
-    cy.get('[data-testid="login-button"] > .ButtonInner-sc-14ud5tc-0').click()
-
-    cy.get('[data-testid="reset-password-link"]').click()
-
-    cy.get('#email_or_username').type('bla')
-
-    cy.get('.ButtonInner-sc-14ud5tc-0').click()
-    
-    cy.get('.iUssHT').should('have.text','Password Reset')
-    
+    resetpage.navigate();
+    resetpage.doResetPass('bla');
+    resetpage.shouldHaveResetMsg('Password Reset')
   })
 })
