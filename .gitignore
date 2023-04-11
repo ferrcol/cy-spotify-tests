@@ -108,3 +108,4 @@ cypress/screenshots
 cypress/mocha
 cypress/downloads
 cypress/videos
+.vscode
