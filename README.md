@@ -15,6 +15,7 @@ This project contains two test scenarios:
 
 ## Setup
 1 - Clone this repository to your local machine and navigate to the project directory.
+
 2 - Run `npm install` to install the required dependencies.
 
 ## Test execution
@@ -31,4 +32,5 @@ npm test -- --env user=USERNAME,pass=PASSWORD
 
 ## Test Results
 When you run the tests in visual mode, you can see the Chrome browser executing the test scenarios just like a real user. The test results are displayed on the screen, allowing you to step through each test case.
+
 When you run the tests in headless mode, you will only see the command line output. The test results include a summary of the tests executed and a directory containing videos and screenshots of the test runs, including any failed tests. You can use these videos and screenshots for further analysis and debugging.
