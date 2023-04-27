@@ -1,3 +1,10 @@
+const domEl = {
+  usernameInput: () => cy.get("input#login-username"),
+  passwordInput: () => cy.get("input#login-password"),
+  loginButton: () => cy.get("button#login-button"),
+  bannerDiv: () => cy.get('[data-encore-id="banner"]'),
+};
+
 export class LoginPage {
   navigate() {
     cy.visit("/en/login");
@@ -5,19 +12,15 @@ export class LoginPage {
 
   dologin(user, pass) {
     if (user) {
-      cy.get("input#login-username").clear().type(user);
+      domEl.usernameInput().clear().type(user);
     }
     if (pass) {
-      cy.get("input#login-password").clear().type(pass);
+      domEl.passwordInput().clear().type(pass);
     }
-    cy.get("button#login-button").click();
+    domEl.loginButton().click();
   }
 
   shouldHaveErrorMsg(errorMsg) {
-    cy.get('[data-encore-id="banner"]').should("include.text", errorMsg);
-  }
-
-  doResetPass(email) {
-    cy.get('[data-encore-id="banner"]').should("have.text", errorMsg);
+    domEl.bannerDiv().should("include.text", errorMsg);
   }
 }

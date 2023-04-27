@@ -4,7 +4,7 @@ import { LandingPage } from "../cypress/page-objects/LandingPage";
 const user = Cypress.env("user");
 const pass = Cypress.env("pass");
 
-describe("list", () => {
+describe("playlist", () => {
   const loginpage = new LoginPage();
   const landingpage = new LandingPage();
   const newListName = "My Favorite Songs" + Date.now();
@@ -22,6 +22,6 @@ describe("list", () => {
 
   it("should delete list successfully", () => {
     landingpage.deleteList();
-    landingpage.shouldNotNewList(newListName);
+    landingpage.shouldNotHaveNewList(newListName);
   });
 });

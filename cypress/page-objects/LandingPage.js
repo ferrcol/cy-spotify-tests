@@ -1,38 +1,49 @@
+const domEl = {
+  usernameLabel: () => cy.get('[data-testid="user-widget-name"]'),
+  acceptCookiesButton: () => cy.get("#onetrust-accept-btn-handler"),
+  loginButton: () => cy.get('button[data-testid="login-button"]'),
+  createPlayListButton: () => cy.get('button[data-testid="create-playlist-button"]'),
+  editDetailsButton: () => cy.get('button[aria-label$="– Edit details"]'),
+  saveButton: () => cy.get('button[data-testid="playlist-edit-details-save-button"]'),
+  contextMenuButton: () => cy.get("#context-menu button"),
+  deleteButton: () => cy.get('button[aria-label^="Delete "]'),
+  nameInput: () => cy.get('input[data-testid="playlist-edit-details-name-input"]'),
+  rootListLi: () => cy.get('[data-testid="rootlist"] li span'),
+};
+
 export class LandingPage {
   navigate() {
     cy.visit("/us/");
   }
 
-  shouldHaveUser(username) {
-    cy.get('[data-testid="user-widget-name"]').should("have.text", username);
-  }
-
   goToLoginPage() {
     cy.visit("/");
-    cy.get("#onetrust-accept-btn-handler").click();
-    cy.get('button[data-testid="login-button"]').click();
+    domEl.acceptCookiesButton().click();
+    domEl.loginButton().click();
   }
 
-  createList(ListName) {
-    cy.get('button[data-testid="create-playlist-button"]').click();
-    cy.get('button[aria-label$="– Edit details"]').click();
-    cy.get('input[data-testid="playlist-edit-details-name-input"]').type(ListName);
-    cy.get('button[data-testid="playlist-edit-details-save-button"]').click();
-  }
-
-  shouldHaveNewList(ListName) {
-    cy.get('[data-testid="rootlist"] li span')
-      .first()
-      .should("have.text", ListName);
+  createList(listName) {
+    domEl.createPlayListButton().click();
+    domEl.editDetailsButton().click();
+    domEl.nameInput().type(listName);
+    domEl.saveButton().click();
   }
 
   deleteList() {
-    cy.get('[data-testid="rootlist-item"]').first().rightclick();
-    cy.get("#context-menu button").eq(4).click();
-    cy.get('button[aria-label^="Delete "]').click();
+    domEl.rootListLi().first().rightclick({force: true});
+    domEl.contextMenuButton().eq(4).click();
+    domEl.deleteButton().click();
   }
 
-  shouldNotNewList(ListName) {
-    cy.get('[data-testid="rootlist"] li span').should("not.include.text",ListName);
+  shouldHaveUser(username) {
+    domEl.usernameLabel().should("have.text", username);
+  }
+
+  shouldHaveNewList(listName) {
+    domEl.rootListLi().first().should("have.text", listName);
+  }
+
+  shouldNotHaveNewList(ListName) {
+    domEl.rootListLi().should("not.include.text", ListName);
   }
 }
