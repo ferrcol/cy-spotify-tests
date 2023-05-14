@@ -6,17 +6,20 @@ module.exports = defineConfig({
     baseUrl: 'https://spotify.com',
     supportFile: 'support/index.js',
     specPattern: 'test/*.cy.js',
-    testIsolation: false
+    testIsolation: false,
+    screenshotsFolder: 'output/screenshots',
+    videosFolder: 'output/videos',
+    downloadsFolder: 'output/downloads',
   },
   reporter: 'cypress-multi-reporters',
     reporterOptions: {
       reporterEnabled: 'mochawesome',
       mochaJunitReporterReporterOptions: {
-        mochaFile: 'cypress/mocha/junit_[hash].xml',
+        mochaFile: 'output/mocha/junit_[hash].xml',
       },
       mochawesomeReporterOptions: {
         reportFilename: 'spec',
-        reportDir: 'cypress/mocha',
+        reportDir: 'output/mocha',
         quite: true,
         timestamp: 'mmddyyyy_HHMMss',
         html: true,

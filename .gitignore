@@ -109,3 +109,9 @@ cypress/mocha
 cypress/downloads
 cypress/videos
 .vscode
+
+# cypress outputs
+output/screenshots
+output/mocha
+output/downloads
+output/videos
