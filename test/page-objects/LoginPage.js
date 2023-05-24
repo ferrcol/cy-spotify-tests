@@ -3,11 +3,12 @@ const domEl = {
   passwordInput: () => cy.get("input#login-password"),
   loginButton: () => cy.get("button#login-button"),
   bannerDiv: () => cy.get('[data-encore-id="banner"]'),
+  resetPassButton: () => cy.get('[data-testid="reset-password-link"]'),
 };
 
 export class LoginPage {
   navigate() {
-    cy.visit("/en/login");
+    cy.visit("/us/login");
   }
 
   dologin(user, pass) {
@@ -18,6 +19,10 @@ export class LoginPage {
       domEl.passwordInput().clear().type(pass);
     }
     domEl.loginButton().click();
+  }
+
+  goToResetPassPage() {
+    domEl.resetPassButton().click();
   }
 
   shouldHaveErrorMsg(errorMsg) {

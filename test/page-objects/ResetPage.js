@@ -6,7 +6,7 @@ const domEl = {
 
 export class ResetPage {
   navigate() {
-    cy.visit("/en/password-reset");
+    cy.visit("/us/password-reset");
   }
 
   doResetPass(username) {

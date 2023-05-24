@@ -15,33 +15,31 @@ describe("login",
     const landingPage = new LandingPage();
     beforeEach(() => {
       landingPage.navigate();
-      landingPage.acceptCookies();
       landingPage.goToLoginPage();
     });
 
     it("should login successfully", () => {
       loginPage.dologin(user, pass);
-      landingPage.shouldHaveUser();
-      //landingPage.shouldHaveUser("ferrcol");
+      landingPage.shouldHaveUser(user);
     });
 
     it("should show an error for wrong user", () => {
       loginPage.dologin("aaa@gmail.com", pass);
-      loginPage.shouldHaveErrorMsg("Error");
+      loginPage.shouldHaveErrorMsg("Incorrect username or password.");
     });
 
     it("should show an error for wrong pass", () => {
       loginPage.dologin(user, "as!");
-      loginPage.shouldHaveErrorMsg("Error");
+      loginPage.shouldHaveErrorMsg("Incorrect username or password.");
     });
 
     it("should show an error for empty fields", () => {
-      loginPage.dologin(user, "as!");
-      loginPage.shouldHaveErrorMsg("Error");
+      loginPage.dologin("", "");
+      loginPage.shouldHaveErrorMsg("Incorrect username or password.");
     });
 
     it("should show a message for successful password reset", () => {
-      landingPage.goToResetPassPage();
+      loginPage.goToResetPassPage();
       resetPage.doResetPass("bla");
       resetPage.shouldHaveResetMsg("Password Reset");
     });

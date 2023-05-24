@@ -1,35 +1,22 @@
 const domEl = {
-  usernameLabel: () => cy.get('[data-testid="user-widget-avatar"],[title="]'),
-  acceptCookiesButton: () => cy.get("#onetrust-accept-btn-handler"),
+  userName: () => cy.get('figure[data-testid="user-widget-avatar"]'),
   loginButton: () => cy.get('button[data-testid="login-button"]'),
   createPlayListFolderButton: () => cy.get('button[aria-label="Create playlist or folder"]'),
-  editDetailsButton: () => cy.get('button[aria-label$="– Edit details"]'),
-  saveButton: () => cy.get('button[data-testid="playlist-edit-details-save-button"]'),
   contextMenuButton: () => cy.get("#context-menu button"),
   deleteButton: () => cy.get('button[aria-label^="Delete "]'),
-  nameInput: () => cy.get('input[data-testid="playlist-edit-details-name-input"]'),
   rootListLi: () => cy.get('[aria-label="Your Library"] li span'),
-  resetPassButton: () => cy.get('[data-testid="reset-password-link"]'),
 };
 
 export class LandingPage {
   navigate() {
-    cy.visit("/us/");
-  }
-
-  acceptCookies() {
-    domEl.acceptCookiesButton().click();
+    cy.visit("/");
   }
 
   goToLoginPage() {
     domEl.loginButton().click();
   }
 
-  goToResetPassPage() {
-    domEl.resetPassButton().click();
-  }
-
-  createList(listName) {
+  createList() {
     domEl.createPlayListFolderButton().click();
     domEl.contextMenuButton().eq(0).click();
   }
@@ -40,17 +27,15 @@ export class LandingPage {
     domEl.deleteButton().click();
   }
 
-  shouldHaveUser() {
-    domEl.usernameLabel().should('exist');
-
+  shouldHaveUser(user) {
+    domEl.userName().should('have.attr','title',user);
   }
 
   shouldHaveNewList(listName) {
-    domEl.rootListLi().first().should("contains", /^My Playlist #\d{1,3}$/);
-
+    domEl.rootListLi().first().contains(listName).should('be.visible');
   }
 
-  shouldNotHaveNewList(ListName) {
-    domEl.rootListLi().should("not.include.text", ListName);
+  shouldNotHaveNewList(listName) {
+    domEl.rootListLi().first().contains(listName).should('not.exist');
   }
 }
